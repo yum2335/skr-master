@@ -34,6 +34,7 @@ namespace SeedCmdChecker
         int mouseY;
         int k = 10;
         double speed;
+        int unti;
         int[] array = new int[0];
         #endregion
 
