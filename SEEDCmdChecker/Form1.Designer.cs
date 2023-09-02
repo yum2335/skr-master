@@ -66,6 +66,10 @@
             this.timer7 = new System.Windows.Forms.Timer(this.components);
             this.timer8 = new System.Windows.Forms.Timer(this.components);
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.timer9 = new System.Windows.Forms.Timer(this.components);
+            this.timer10 = new System.Windows.Forms.Timer(this.components);
+            this.timer11 = new System.Windows.Forms.Timer(this.components);
+            this.timer12 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // Clear
@@ -383,6 +387,21 @@
             this.timer3.Interval = 20;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // timer9
+            // 
+            this.timer9.Interval = 20;
+            this.timer9.Tick += new System.EventHandler(this.timer9_Tick);
+            // 
+            // timer10
+            // 
+            this.timer10.Interval = 20;
+            this.timer10.Tick += new System.EventHandler(this.timer10_Tick);
+            // 
+            // timer11
+            // 
+            this.timer11.Interval = 20;
+            this.timer11.Tick += new System.EventHandler(this.timer11_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -468,6 +487,10 @@
         private System.Windows.Forms.Timer timer7;
         private System.Windows.Forms.Timer timer8;
         private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.Timer timer9;
+        private System.Windows.Forms.Timer timer10;
+        private System.Windows.Forms.Timer timer11;
+        private System.Windows.Forms.Timer timer12;
     }
 }
 

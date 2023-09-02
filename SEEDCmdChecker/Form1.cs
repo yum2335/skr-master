@@ -32,10 +32,16 @@ namespace SeedCmdChecker
         private int pulse;
         int mouseX;
         int mouseY;
-        int k = 10;
-        double speed;
-        int untii;
+        int mouseX2;
+        int mouseY2;
+        int mouseX3;
+        int mouseY3;
+        int mouseX4;
+        int mouseY4;
+        int W=400;
+        int D=300;
         int[] array = new int[0];
+        int a = 0;
         #endregion
 
         #region コンストラクタ
@@ -102,18 +108,97 @@ namespace SeedCmdChecker
                 //mouse mouse = new mouse();
                 mouseX = mouse.X;
                 mouseY = mouse.Y;
-                timer2.Enabled = false;
+                //timer2.Enabled = false;
                 timer3.Enabled = true;
-                //timer8.Enabled = false;
-               
+                timer8.Enabled = false;
+                
+                
 
             }
+
             if (str.Contains("t30F56FFF5C06FF"))
             {
                 //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
-                timer2.Enabled = true;
+                //timer2.Enabled = true;
                 timer3.Enabled = false;
+                timer8.Enabled = true;
+                
+                //func2();
+                Console.WriteLine(a);
             }
+
+            if (str.Contains("t30F55FFF5C0500"))
+            {
+                //mouse mouse = new mouse();
+                mouseX2 = mouse.X;
+                mouseY2 = mouse.Y;
+                //timer2.Enabled = false;
+                timer9.Enabled = true;
+                timer7.Enabled = false;
+
+
+
+            }
+
+            if (str.Contains("t30F55FFF5C05FF"))
+            {
+                //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+                //timer2.Enabled = true;
+                timer9.Enabled = false;
+                timer7.Enabled = true;
+
+                //func2();
+                Console.WriteLine(a);
+            }
+
+            if (str.Contains("t30F54FFF5C0400"))
+            {
+                //mouse mouse = new mouse();
+                mouseX3 = mouse.X;
+                mouseY3 = mouse.Y;
+                //timer2.Enabled = false;
+                timer10.Enabled = true;
+                timer6.Enabled = false;
+
+
+
+            }
+
+            if (str.Contains("t30F54FFF5C04FF"))
+            {
+                //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+                //timer2.Enabled = true;
+                timer10.Enabled = false;
+                timer6.Enabled = true;
+
+                //func2();
+                Console.WriteLine(a);
+            }
+            if (str.Contains("t30F53FFF5C0300"))
+            {
+                //mouse mouse = new mouse();
+                mouseX4 = mouse.X;
+                mouseY4 = mouse.Y;
+                //timer2.Enabled = false;
+                timer11.Enabled = true;
+                timer4.Enabled = false;
+
+
+
+            }
+
+            if (str.Contains("t30F53FFF5C03FF"))
+            {
+                //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+                //timer2.Enabled = true;
+                timer11.Enabled = false;
+                timer4.Enabled = true;
+
+                //func2();
+                Console.WriteLine(a);
+            }
+
+
 
         }
 
@@ -634,19 +719,24 @@ namespace SeedCmdChecker
                 timer6.Enabled = true;
                 timer7.Enabled = true;
                 timer8.Enabled = true;
-
+                timer9.Enabled = true;
+                timer10.Enabled = true;
+                timer11.Enabled = true;
             }
             else
             {
                 Start.Text = "Start";
                 timer2.Enabled = false;
-                //timer3.Enabled = false;
+                timer3.Enabled = false;
                 timer4.Enabled = false;
                 timer5.Enabled = false;
                 timer6.Enabled = false;
                 timer7.Enabled = false;
                 timer8.Enabled = false;
-            
+                timer9.Enabled = false;
+                timer10.Enabled = false;
+                timer11.Enabled = false;
+
             }
             timer1.Enabled = true;
         }
@@ -666,9 +756,6 @@ namespace SeedCmdChecker
 
             if (ilen2 > 1000)
                 this.textBox_SendLog.Text = this.textBox_SendLog.Text.Remove(0, 1000);
-
-            //Console.WriteLine(ilen2.ToString());
-            //Console.WriteLine(ilen.ToString());
         }
 
 
@@ -680,7 +767,7 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id3 < 600 && id3 > 300 && mouse.Y < 600 && mouse.Y > 300)
+            if (id3 < 2*W && id3 > W && mouse.Y < 2*D && mouse.Y > D)
             {
                
                 try
@@ -705,15 +792,7 @@ namespace SeedCmdChecker
                     MessageBox.Show("送信に失敗しました。");
                 }
 
-
-
-                // timer4.Enabled = false;
-                //timer3.Enabled = true;
-
-
             }
-
-            
 
             
             else
@@ -765,7 +844,7 @@ namespace SeedCmdChecker
                 mouse = new mouse();
                 //マウスx座標をpulseに変換(86000pulse/800pixel=110)
                 pulse = mouse.Y * 107;
-
+                
                 //seedコマンドの末尾に4桁指定でx座標を入れる
                 textBox_Send.Text = "t3018F100680001" + pulse.ToString("X6");
 
@@ -797,13 +876,13 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id4 < 600 && id4 > 300 && mouse.Y < 600 && mouse.Y > 300)
+            if (id4 < 2*W && id4 > W && mouse.Y < 2*D && mouse.Y > D)
             {
                
                 try
                 {
                     string cmd = this.textBox_Send.Text;
-                    textBox_Send.Text = "t3048F4005D0402000000";
+                    textBox_Send.Text = "t3048F4005D0401000000";
                     int zeroFillLen = 12 - textBox_Send.Text.Length; // SEED CMDの長さからテキストのコマンド長さを引く。
 
                     for (int i = 0; i < zeroFillLen; i++)
@@ -864,7 +943,7 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id5 < 600 && id5 > 300 && mouse.Y < 600 && mouse.Y > 300)
+            if (id5 < 2*W && id5 > W && mouse.Y < 2*D && mouse.Y > D)
             {
                
                 try
@@ -937,12 +1016,9 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id6 < 600 && id6 > 300 && mouse.Y < 600 && mouse.Y > 300)
+            if (id6 < 2*W && id6 > W && mouse.Y < 2*D && mouse.Y > D)
             {
-                //mouseX = mouse.X;
-                //mouseY = mouse.Y;
-                //timer8.Enabled = false;
-                //timer3.Enabled = true;
+              
 
                 try
                 {
@@ -1052,14 +1128,23 @@ namespace SeedCmdChecker
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            Console.WriteLine("a");
-            
             System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
-            //if (mouse.X >= 600 - k || mouse.X <= 300 + k || mouse.Y >= 600 - k || mouse.Y <= 300 + k)
-            //{
-                //timer8.Enabled = true;
-                //timer3.Enabled = false;
-            //}
+        }
+
+       
+        private void timer9_Tick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX2, mouseY2);
+        }
+
+        private void timer10_Tick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX3, mouseY3);
+        }
+
+        private void timer11_Tick(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX4, mouseY4);
         }
     }
 }
