@@ -12,6 +12,7 @@ using System.IO.Ports;
 using System.IO;
 using System.Globalization;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace SeedCmdChecker
 {
@@ -38,10 +39,13 @@ namespace SeedCmdChecker
         int mouseY3;
         int mouseX4;
         int mouseY4;
-        int W=400;
-        int D=300;
+        int W = 400;
+        int D = 300;
+        int brake = 0;
         int[] array = new int[0];
         int a = 0;
+        int rinia1 = 0;
+        int rinia2 = 0;
         #endregion
 
         #region コンストラクタ
@@ -105,30 +109,31 @@ namespace SeedCmdChecker
 
             if (str.Contains("t30F56FFF5C0600"))
             {
-                //mouse mouse = new mouse();
+
                 mouseX = mouse.X;
                 mouseY = mouse.Y;
                 //timer2.Enabled = false;
                 timer3.Enabled = true;
                 timer8.Enabled = false;
-                
-                
+
+
+
 
             }
 
             if (str.Contains("t30F56FFF5C06FF"))
             {
+
                 //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
                 //timer2.Enabled = true;
                 timer3.Enabled = false;
                 timer8.Enabled = true;
-                
-                //func2();
-                Console.WriteLine(a);
+
             }
 
             if (str.Contains("t30F55FFF5C0500"))
             {
+
                 //mouse mouse = new mouse();
                 mouseX2 = mouse.X;
                 mouseY2 = mouse.Y;
@@ -142,13 +147,12 @@ namespace SeedCmdChecker
 
             if (str.Contains("t30F55FFF5C05FF"))
             {
+
                 //System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
                 //timer2.Enabled = true;
                 timer9.Enabled = false;
                 timer7.Enabled = true;
 
-                //func2();
-                Console.WriteLine(a);
             }
 
             if (str.Contains("t30F54FFF5C0400"))
@@ -172,7 +176,7 @@ namespace SeedCmdChecker
                 timer6.Enabled = true;
 
                 //func2();
-                Console.WriteLine(a);
+                //Console.WriteLine(a);
             }
             if (str.Contains("t30F53FFF5C0300"))
             {
@@ -183,8 +187,6 @@ namespace SeedCmdChecker
                 timer11.Enabled = true;
                 timer4.Enabled = false;
 
-
-
             }
 
             if (str.Contains("t30F53FFF5C03FF"))
@@ -194,8 +196,6 @@ namespace SeedCmdChecker
                 timer11.Enabled = false;
                 timer4.Enabled = true;
 
-                //func2();
-                Console.WriteLine(a);
             }
 
 
@@ -538,6 +538,7 @@ namespace SeedCmdChecker
 
         private void timer2_Tick(object sender, EventArgs e)
         {
+            //Cursor.Hide();
             位置座標.Text = Control.MousePosition.ToString();
 #if DEBUG
 
@@ -577,9 +578,12 @@ namespace SeedCmdChecker
             {
                 string cmd = this.textBox_Send.Text;
 
+                mouse = new mouse();
+                //マウスx座標をpulseに変換(86000pulse/800pixel=110)
+                pulse = mouse.Y * 107;
 
                 //seedコマンドの末尾に4桁指定でx座標を入れる
-                textBox_Send.Text = "t3018F100420100000000";
+                textBox_Send.Text = "t3018F100680001" + pulse.ToString("X6");
 
                 int zeroFillLen = 12 - textBox_Send.Text.Length; // SEED CMDの長さからテキストのコマンド長さを引く。
 
@@ -600,7 +604,33 @@ namespace SeedCmdChecker
             {
                 MessageBox.Show("送信に失敗しました。");
             }
-            
+
+            try
+            {
+                string cmd = this.textBox_Send.Text;
+
+                //seedコマンドの末尾に4桁指定でx座標を入れる
+                textBox_Send.Text = "t3028F200420200000000";
+
+                int zeroFillLen = 12 - textBox_Send.Text.Length; // SEED CMDの長さからテキストのコマンド長さを引く。
+
+                for (int i = 0; i < zeroFillLen; i++)
+                {
+                    cmd += "0";
+                }
+
+                this.textBox_SendLog.Text += textBox_Send.Text + "\\r" + "\r\n";
+                //this.liner_position.Text += liner_position.Text + "\\r" + "\r\n";
+
+                cmd += "\r";
+                //cmd2 += "\r";
+                serialPort.Write(cmd);
+
+            }
+            catch
+            {
+                MessageBox.Show("送信に失敗しました。");
+            }
         }
 
 #endif
@@ -713,9 +743,9 @@ namespace SeedCmdChecker
             {
                 Start.Text = "Stop";
                 timer2.Enabled = true;
-                //timer3.Enabled = true;
+                timer3.Enabled = true;
                 timer4.Enabled = true;
-                timer5.Enabled = true;
+                //timer5.Enabled = true;
                 timer6.Enabled = true;
                 timer7.Enabled = true;
                 timer8.Enabled = true;
@@ -729,7 +759,7 @@ namespace SeedCmdChecker
                 timer2.Enabled = false;
                 timer3.Enabled = false;
                 timer4.Enabled = false;
-                timer5.Enabled = false;
+                // timer5.Enabled = false;
                 timer6.Enabled = false;
                 timer7.Enabled = false;
                 timer8.Enabled = false;
@@ -767,9 +797,9 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id3 < 2*W && id3 > W && mouse.Y < 2*D && mouse.Y > D)
+            if (id3 < 600 && id3 > 300 && mouse.Y < 600 && mouse.Y > 300)
             {
-               
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -794,10 +824,10 @@ namespace SeedCmdChecker
 
             }
 
-            
+
             else
             {
-               
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -820,54 +850,19 @@ namespace SeedCmdChecker
                     cmd += "\r";
                     //cmd2 += "\r";
                     serialPort.Write(cmd);
-
-                    //Console.WriteLine(mouse.X);
-                    //Console.WriteLine(cmd2);
                 }
                 catch
                 {
                     MessageBox.Show("送信に失敗しました。");
                 }
 
-               
+
             }
 
         }
 
 
-        private void timer5_Tick(object sender, EventArgs e)
-        {
-            try
-            {
-                string cmd = this.textBox_Send.Text;
 
-                mouse = new mouse();
-                //マウスx座標をpulseに変換(86000pulse/800pixel=110)
-                pulse = mouse.Y * 107;
-                
-                //seedコマンドの末尾に4桁指定でx座標を入れる
-                textBox_Send.Text = "t3018F100680001" + pulse.ToString("X6");
-
-                int zeroFillLen = 12 - textBox_Send.Text.Length; // SEED CMDの長さからテキストのコマンド長さを引く。
-
-                for (int i = 0; i < zeroFillLen; i++)
-                {
-                    cmd += "0";
-                }
-
-                this.textBox_SendLog.Text += textBox_Send.Text + "\\r" + "\r\n";
-                //this.liner_position.Text += liner_position.Text + "\\r" + "\r\n";
-
-                cmd += "\r";
-                //cmd2 += "\r";
-                serialPort.Write(cmd);
-
-            }
-            catch
-            {
-                MessageBox.Show("送信に失敗しました。");
-            }
-        }
 
         private void timer6_Tick(object sender, EventArgs e)
         {
@@ -876,9 +871,9 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id4 < 2*W && id4 > W && mouse.Y < 2*D && mouse.Y > D)
+            if (id4 < 600 && id4 > 300 && mouse.Y < 600 && mouse.Y > 300)
             {
-               
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -904,7 +899,7 @@ namespace SeedCmdChecker
 
             else
             {
-                
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -943,9 +938,9 @@ namespace SeedCmdChecker
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id5 < 2*W && id5 > W && mouse.Y < 2*D && mouse.Y > D)
+            if (id5 < 600 && id5 > 300 && mouse.Y < 600 && mouse.Y > 300)
             {
-               
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -972,7 +967,7 @@ namespace SeedCmdChecker
 
             else
             {
-               
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -995,14 +990,12 @@ namespace SeedCmdChecker
                     cmd += "\r";
                     //cmd2 += "\r";
                     serialPort.Write(cmd);
-
-                    //Console.WriteLine(mouse.X);
-                    //Console.WriteLine(cmd2);
                 }
                 catch
                 {
                     MessageBox.Show("送信に失敗しました。");
                 }
+
 
             }
 
@@ -1011,14 +1004,15 @@ namespace SeedCmdChecker
         private void timer8_Tick(object sender, EventArgs e)
         {
             mouse = new mouse();
-            
+            MouseSpeed.Set(1);
+
             int id6 = mouse.X;
             int id5 = mouse.X - 50;
             int id4 = mouse.X - 100;
             int id3 = mouse.X - 150;
-            if (id6 < 2*W && id6 > W && mouse.Y < 2*D && mouse.Y > D)
+            if (id6 < 600 && id6 > 300 && mouse.Y < 600 && mouse.Y > 300)
             {
-              
+
 
                 try
                 {
@@ -1047,7 +1041,8 @@ namespace SeedCmdChecker
 
             else
             {
-               
+                MouseSpeed.Set(5);
+
                 try
                 {
                     string cmd = this.textBox_Send.Text;
@@ -1124,27 +1119,122 @@ namespace SeedCmdChecker
                     MessageBox.Show("送信に失敗しました。");
                 }
             }
+
+            if (e.KeyData == Keys.O)
+            {
+                brake = 1;
+                brakelabel.Text = "ブレーキあり";
+            }
+
+            if (e.KeyData == Keys.N)
+            {
+                brake = 0;
+                brakelabel.Text = "ブレーキなし";
+            }
+
+            if (e.KeyData == Keys.C)
+            {
+                this.textBox_SendLog.Clear();
+                this.textBox_RecvLog.Clear();
+
+            }
+
+
         }
 
         private void timer3_Tick(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+            if (brake == 1)
+            {
+                System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+            }
         }
 
-       
+
         private void timer9_Tick(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX2, mouseY2);
+            if (brake == 1)
+            {
+                System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX2, mouseY2);
+            }
         }
 
         private void timer10_Tick(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX3, mouseY3);
+            if (brake == 1)
+            {
+                System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX3, mouseY3);
+            }
+
         }
 
         private void timer11_Tick(object sender, EventArgs e)
         {
-            System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX4, mouseY4);
+            if (brake == 1)
+            {
+                System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX4, mouseY4);
+            }
+        }
+
+        private void ex()
+        {
+            a = 1;
+            while (true)
+            {
+                System.Windows.Forms.Cursor.Position = new System.Drawing.Point(mouseX, mouseY);
+                if (a == 0)
+                {
+                    break;
+                }
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(@"C: \Users\ShapePS\OneDrive - 富山県立大学\デスクトップ\2022岩渕\2023\skr実測データ\ifdate.txt", true, Encoding.UTF8))
+                    sw.WriteLine(textBox_RecvLog.Text);
+                Console.WriteLine("データ保存した: ");
+                MessageBox.Show("データ保存したお");
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("データの保存中にエラーが発生しました: " + ex.Message);
+            }
+        }
+
+        public static class MouseSpeed
+
+        {
+
+            [DllImport("user32.dll", SetLastError = true)]
+
+            private static extern bool SystemParametersInfo(uint uiAction, uint uiParam, IntPtr pvVoid, uint fWinIni);
+
+
+
+            private const uint SPI_GETMOUSESPEED = 0x70;
+
+            private const uint SPI_SETMOUSESPEED = 0x71;
+
+
+
+            public static void Set(int speed)
+
+            {
+
+                if (!SystemParametersInfo(SPI_SETMOUSESPEED, 0, new IntPtr(speed), 0))
+
+                {
+
+                    throw new Exception("マウスカーソルの速度を設定できませんでした。");
+
+                }
+
+            }
+
         }
     }
 }

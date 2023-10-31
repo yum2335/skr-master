@@ -61,7 +61,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.liner_position = new System.Windows.Forms.TextBox();
             this.timer4 = new System.Windows.Forms.Timer(this.components);
-            this.timer5 = new System.Windows.Forms.Timer(this.components);
             this.timer6 = new System.Windows.Forms.Timer(this.components);
             this.timer7 = new System.Windows.Forms.Timer(this.components);
             this.timer8 = new System.Windows.Forms.Timer(this.components);
@@ -69,7 +68,8 @@
             this.timer9 = new System.Windows.Forms.Timer(this.components);
             this.timer10 = new System.Windows.Forms.Timer(this.components);
             this.timer11 = new System.Windows.Forms.Timer(this.components);
-            this.timer12 = new System.Windows.Forms.Timer(this.components);
+            this.brakelabel = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Clear
@@ -364,11 +364,6 @@
             // 
             this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
             // 
-            // timer5
-            // 
-            this.timer5.Interval = 20;
-            this.timer5.Tick += new System.EventHandler(this.timer5_Tick);
-            // 
             // timer6
             // 
             this.timer6.Tick += new System.EventHandler(this.timer6_Tick);
@@ -379,33 +374,53 @@
             // 
             // timer8
             // 
-            this.timer8.Interval = 20;
             this.timer8.Tick += new System.EventHandler(this.timer8_Tick);
             // 
             // timer3
             // 
-            this.timer3.Interval = 20;
+            this.timer3.Interval = 10;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
             // timer9
             // 
-            this.timer9.Interval = 20;
+            this.timer9.Interval = 10;
             this.timer9.Tick += new System.EventHandler(this.timer9_Tick);
             // 
             // timer10
             // 
-            this.timer10.Interval = 20;
+            this.timer10.Interval = 10;
             this.timer10.Tick += new System.EventHandler(this.timer10_Tick);
             // 
             // timer11
             // 
-            this.timer11.Interval = 20;
+            this.timer11.Interval = 10;
             this.timer11.Tick += new System.EventHandler(this.timer11_Tick);
+            // 
+            // brakelabel
+            // 
+            this.brakelabel.AutoSize = true;
+            this.brakelabel.Location = new System.Drawing.Point(816, 261);
+            this.brakelabel.Name = "brakelabel";
+            this.brakelabel.Size = new System.Drawing.Size(94, 18);
+            this.brakelabel.TabIndex = 36;
+            this.brakelabel.Text = "ブレーキなし";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(598, 242);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(149, 60);
+            this.button1.TabIndex = 37;
+            this.button1.Text = "データ保存";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(922, 425);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.brakelabel);
             this.Controls.Add(this.liner_position);
             this.Controls.Add(this.Start);
             this.Controls.Add(this.モータOFF);
@@ -482,7 +497,6 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TextBox liner_position;
         private System.Windows.Forms.Timer timer4;
-        private System.Windows.Forms.Timer timer5;
         private System.Windows.Forms.Timer timer6;
         private System.Windows.Forms.Timer timer7;
         private System.Windows.Forms.Timer timer8;
@@ -490,7 +504,8 @@
         private System.Windows.Forms.Timer timer9;
         private System.Windows.Forms.Timer timer10;
         private System.Windows.Forms.Timer timer11;
-        private System.Windows.Forms.Timer timer12;
+        private System.Windows.Forms.Label brakelabel;
+        private System.Windows.Forms.Button button1;
     }
 }
 
